@@ -135,5 +135,9 @@ WHERE customerId NOT IN (
   - account `budget` is required.
 > This can be done with the CREATE TABLE clause
 ```sql
-
+CREATE TABLE `accounts` (
+  `id` integer primary key autoincrement,
+  `name` text unique,
+  `budget` numeric not null
+)
 ```
