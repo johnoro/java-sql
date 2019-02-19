@@ -79,19 +79,29 @@ WHERE contactName = 'Bilbo Baggins'
 
 > There is more information about the COUNT clause on [W3 Schools](https://www.w3schools.com/sql/sql_count_avg_sum.asp)
 ```sql
-
+SELECT customerName as Customer, count(o.customerId) as OrderCount
+FROM orders o
+JOIN customers c ON o.customerId = c.customerId
+GROUP BY o.customerId
 ```
 
 ### list customers names and the number of orders per customer. Sort the list by number of orders in descending order. _Ernst Handel_ should be at the top with 10 orders followed by _QUICK-Stop_, _Rattlesnake Canyon Grocery_ and _Wartian Herkku_ with 7 orders each.
 > This can be done by adding an ORDER BY clause to the previous answer
 ```sql
-
+SELECT customerName as Customer, count(o.customerId) as OrderCount
+FROM orders o
+JOIN customers c ON o.customerId = c.customerId
+GROUP BY o.customerId
+ORDER BY OrderCount DESC
 ```
 
 ### list orders grouped by customer's city showing number of orders per city. Returns 58 Records with _Aachen_ showing 2 orders and _Albuquerque_ showing 7 orders.
 > This is very similar to the previous two queries, however, it focuses on the City rather than the CustomerName
 ```sql
-
+SELECT City, count(o.customerId) as OrderCount
+FROM orders o
+JOIN customers c ON o.customerId = c.customerId
+GROUP BY city
 ```
 
 ### delete all customers that have no orders. Should delete 17 (or 18 if you haven't deleted the record added) records.
@@ -101,7 +111,11 @@ WHERE contactName = 'Bilbo Baggins'
  
 > Use a LEFT JOIN to join the Orders table onto the Customers table and check for a NULL value in the OrderID column
 ```sql
-
+DELETE FROM customers
+WHERE customerId NOT IN (
+  SELECT customerId
+  FROM orders
+)
 ```
 
 ## Create Database and Table
